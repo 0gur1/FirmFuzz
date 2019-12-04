@@ -1,13 +1,18 @@
 #!/bin/bash
 source ./env_var.config
+source ./test.sh
+: << !
 umount_image() {
   umount $1                                      
   kpartx -d "${IMAGE}"                                                            
   #losetup -d "$1" &>/dev/null                                              
   #dmsetup remove $(basename "$1") &>/dev/null
 }
-ROOT_DIR="$HOME"
-HOME_DIR="$ROOT_DIR/firmfuzz"
+!
+echo "---cleaning up---"
+echo $DEVICE
+ROOT_DIR="$HOME/yt"
+HOME_DIR="$ROOT_DIR/FirmFuzz"
 KERNEL_DIR="$HOME_DIR/framework/kernel_firmfuzz/drivers/firmfuzz/"
 KERNEL_DIR_ARMEL="$HOME_DIR/framework/kernel_firmfuzz_armel/drivers/firmfuzz/"
 
@@ -18,16 +23,17 @@ echo ">>Removing temp device directory"
 sudo rm -rf workdir/
 
 echo ">>Removing scratch directory with raw image"
-umount_image /dev/mapper/loop0p1
+#umount_image $DEVICE
 sudo rm -rf $HOME_DIR/scratch
 
+: << !
 echo ">>Copying initial devfiles to kernel"
 cp $HOME_DIR/framework/scripts/devfs_stubs_orig.c $KERNEL_DIR/devfs_stubs.c
 cp $HOME_DIR/framework/scripts/devfs_stubs_orig.c $KERNEL_DIR_ARMEL/devfs_stubs.c
 
 echo ">>Copying default device directory"
 cp $HOME_DIR/framework/scripts/mapper/dev.tgz $HOME_DIR/framework/scripts/
-
+!
 echo ">>Remaking kernel"
 cd $KERNEL_DIR/../../
 
@@ -46,4 +52,3 @@ else
 fi
 
 cd -
-
