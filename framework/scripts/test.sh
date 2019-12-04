@@ -75,9 +75,9 @@ mount_image() {
 
 
 umount_image() {
-
   umount $1
   kpartx -d "${IMAGE}"
-  losetup -d $1 &>/dev/null
-  dmsetup remove $(basename "$1") &>/dev/null
+  #losetup -d $1 &>/dev/null
+  #dmsetup remove $(basename "$1") &>/dev/null
+
 }
