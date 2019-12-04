@@ -12,8 +12,8 @@ do
   fi
 
   source makeImage_batch_fs.sh $f
-  echo "REMOVING $f"
-  rm $f
+  #echo "REMOVING $f"
+  #rm $f
   ./cleanup_fs.sh $ARCH
 
 done
