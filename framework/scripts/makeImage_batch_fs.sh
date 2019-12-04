@@ -9,8 +9,8 @@ set -u #Attempt to use undefined variable causes error
 
 function cleanup {
   ./cleanup_fs.sh ${ARCH}
-  ./remove_prob.sh $RAW_IMAGE_DIR
-  ./run_batch_fs.sh $RAW_IMAGE_DIR
+  #./remove_prob.sh $RAW_IMAGE_DIR
+  #./run_batch_fs.sh $RAW_IMAGE_DIR
 }
 
 
