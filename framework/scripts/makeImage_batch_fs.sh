@@ -14,7 +14,8 @@ function cleanup {
 }
 
 
-trap cleanup EXIT
+
+#trap cleanup EXIT
 
 mkdir -p $IMAGE_DIR
 IMAGE_NAME=$(echo $1 | rev | cut -d"/" -f1 | rev | cut -d _ -f 1 | cut -d"." -f1)
