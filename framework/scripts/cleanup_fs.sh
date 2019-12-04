@@ -23,7 +23,11 @@ echo ">>Removing temp device directory"
 sudo rm -rf workdir/
 
 echo ">>Removing scratch directory with raw image"
-#umount_image $DEVICE
+array=(`echo $DEVICE|tr '/' ' '`)
+FLAG=`ls /dev/mapper|grep ${array[2]}|wc -l`
+if [ $FLAG -ne 0 ];then
+   umount_image $DEVICE
+fi
 sudo rm -rf $HOME_DIR/scratch
 
 : << !
