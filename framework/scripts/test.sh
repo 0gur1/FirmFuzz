@@ -25,7 +25,7 @@ make_image() {
   kpartx_out="$(kpartx -a -s -v "${IMAGE}")"                                      
   echo $kpartx_out                                                                
   DEVICE="$(echo $kpartx_out | cut -d ' ' -f 3)"                                  
-  DEVICE="/dev/mapper/$DEVICE"                                                    
+  export DEVICE="/dev/mapper/$DEVICE"                                                 
   sleep 1                            
   
   echo "----Creating Filesystem----"                                              
@@ -75,8 +75,9 @@ mount_image() {
 
 
 umount_image() {
-  umount $1                                                         
-  kpartx -d "${IMAGE}"                                                            
-  #losetup -d "$1" &>/dev/null                                              
-  #dmsetup remove $(basename "$1") &>/dev/null
+
+  umount $1
+  kpartx -d "${IMAGE}"
+  losetup -d $1 &>/dev/null
+  dmsetup remove $(basename "$1") &>/dev/null
 }
